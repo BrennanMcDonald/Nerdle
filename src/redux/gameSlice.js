@@ -56,10 +56,18 @@ export const gameSlice = createSlice({
       }
     },
     removeLetter: (state) => {
-      state.currentGuess = state.currentGuess.substr(
-        0,
-        state.currentGuess.length - 1
-      );
+
+      if (
+        gameState !== GAME_STATES.GAME_WON &&
+        gameState !== GAME_STATES.GAME_LOST
+      ) {
+        state.currentGuess = state.currentGuess.substr(
+          0,
+          state.currentGuess.length - 1
+        );
+      } else {
+        return;
+      }
     },
     clearCurrentGuess: (state) => {
       state.currentGuess += "";

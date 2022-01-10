@@ -35,6 +35,22 @@ const Title = styled.div`
   align-items: center;
 `;
 
+const GameMessage = styled.div`
+  font-weight: 700;
+  font-size: 24px;
+  letter-spacing: 0.2rem;
+  text-transform: uppercase;
+  text-align: center;
+  color:white;
+  border-bottom: solid 1px white;
+  padding-left: 100px;
+  padding-right: 100px;
+  margin-bottom:10px;
+  position:relative;
+  display:flex;
+  align-items: center;
+`;
+
 const TitleButton = styled.button`
   position: absolute;
   right:0px;
@@ -77,6 +93,8 @@ function App() {
         return `Congratulations! You got it in ${currentRow} guess${
           currentRow === 1 ? "" : "es"
         }`;
+        case GAME_STATES.GAME_OVER:
+          return `You Lost. Sadge.`;
       case GAME_STATES.INVALID_GUESS_NOT_WORD:
         return `${tempGuess} is not a word, bozo.`;
       case GAME_STATES.INVALID_GUESS_TOO_SHORT:
@@ -85,8 +103,6 @@ function App() {
         return "";
     }
   };
-
-  console.log(keyboardRef.current);
 
   return (
     <div className="App">
@@ -101,7 +117,7 @@ function App() {
       </TitleButton>
       </Title>
       <br />
-      {renderGameMessage()}
+      <GameMessage>{renderGameMessage()}</GameMessage>
       <GameBoard
         word={word}
         currentGuess={currentGuess}
