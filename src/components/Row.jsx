@@ -18,31 +18,27 @@ function Row({ state, guess }) {
   var letters = [];
   // We need to build colors
   if (state === ROW_STATES.PREVIOUS) {
-    {
-      [...guess].forEach((el, i) => {
-        if (el === currentWord[i]) {
-          letters.push(
-            <Letter key={i} letter={el} state={LETTER_STATES.RIGHT_SPACE} />
-          );
-        } else if (currentWord.includes(el)) {
-          letters.push(
-            <Letter key={i} letter={el} state={LETTER_STATES.RIGHT_LETTER} />
-          );
-        } else {
-          letters.push(
-            <Letter key={i} letter={el} state={LETTER_STATES.WRONG} />
-          );
-        }
-      });
-    }
-  } else {
-    {
-      [...guess].forEach((el, i) => {
+    [...guess].forEach((el, i) => {
+      if (el === currentWord[i]) {
         letters.push(
-          <Letter key={i} letter={el} state={LETTER_STATES.UNGUESSED} />
+          <Letter key={i} letter={el} state={LETTER_STATES.RIGHT_SPACE} />
         );
-      });
-    }
+      } else if (currentWord.includes(el)) {
+        letters.push(
+          <Letter key={i} letter={el} state={LETTER_STATES.RIGHT_LETTER} />
+        );
+      } else {
+        letters.push(
+          <Letter key={i} letter={el} state={LETTER_STATES.WRONG} />
+        );
+      }
+    });
+  } else {
+    [...guess].forEach((el, i) => {
+      letters.push(
+        <Letter key={i} letter={el} state={LETTER_STATES.UNGUESSED} />
+      );
+    });
   }
 
   return <InnerRow>{letters}</InnerRow>;
