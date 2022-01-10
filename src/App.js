@@ -59,7 +59,7 @@ function App() {
 
   useEffect(() => {
     dispatch(newGame(5));
-  }, []);
+  }, [dispatch]);
 
   const onKeyPress = (button) => {
     if (button === "{bksp}") {
