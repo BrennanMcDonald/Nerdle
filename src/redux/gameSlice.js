@@ -56,7 +56,7 @@ export const gameSlice = createSlice({
       }
     },
     removeLetter: (state) => {
-
+      const { gameState } = state;
       if (
         gameState !== GAME_STATES.GAME_WON &&
         gameState !== GAME_STATES.GAME_LOST
