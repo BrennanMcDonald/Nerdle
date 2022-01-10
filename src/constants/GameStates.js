@@ -1,0 +1,10 @@
+const GAME_STATES = {
+  NEW_GAME: 0,
+  GUESS_MADE: 1,
+  GAME_OVER: 2,
+  GAME_WON: 3,
+  INVALID_GUESS_TOO_SHORT: 4,
+  INVALID_GUESS_NOT_WORD: 5,
+};
+
+export default GAME_STATES;
