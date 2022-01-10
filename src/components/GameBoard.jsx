@@ -5,7 +5,9 @@ import Row from "./Row";
 import { useSelector } from "react-redux";
 import ROW_STATES from "../constants/RowStates";
 
-const Game = styled.div``;
+const Game = styled.div`
+  flex: 1;
+`;
 
 function GameBoard({ word, currentGuess }) {
   const currentRow = useSelector((state) => state.game.currentRow);

@@ -13,53 +13,50 @@ import GameBoard from "./components/GameBoard";
 import GAME_STATES from "./constants/GameStates";
 import styled from "styled-components";
 
-const KeyboardWrapper = styled.div`
-  width: 50%;
-  bottom: 50px;
-  position:absolute;
-`;
-
 const Title = styled.div`
   font-weight: 700;
   font-size: 36px;
   letter-spacing: 0.2rem;
   text-transform: uppercase;
   text-align: center;
-  color:white;
+  color: white;
   border-bottom: solid 1px white;
   padding-left: 100px;
   padding-right: 100px;
-  margin-bottom:10px;
-  position:relative;
-  display:flex;
+  margin-bottom: 10px;
+  position: relative;
+  display: flex;
   align-items: center;
 `;
 
 const GameMessage = styled.div`
   font-weight: 700;
-  font-size: 24px;
+  font-size: 1em;
   letter-spacing: 0.2rem;
   text-transform: uppercase;
   text-align: center;
-  color:white;
+  color: white;
   border-bottom: solid 1px white;
   padding-left: 100px;
   padding-right: 100px;
-  margin-bottom:10px;
-  position:relative;
-  display:flex;
+  margin-bottom: 10px;
+  position: relative;
+  display: flex;
   align-items: center;
 `;
 
 const TitleButton = styled.button`
   position: absolute;
-  right:0px;
+  right: 0px;
   background: transparent;
   color: white;
   border: solid 1px white;
-  position-self:center;
+  position-self: center;
   padding: 5px;
   cursor: pointer;
+`;
+
+const Header = styled.div`
 `;
 
 function App() {
@@ -93,8 +90,8 @@ function App() {
         return `Congratulations! You got it in ${currentRow} guess${
           currentRow === 1 ? "" : "es"
         }`;
-        case GAME_STATES.GAME_OVER:
-          return `You Lost. Sadge.`;
+      case GAME_STATES.GAME_OVER:
+        return `You Lost. Sadge.`;
       case GAME_STATES.INVALID_GUESS_NOT_WORD:
         return `${tempGuess} is not a word, bozo.`;
       case GAME_STATES.INVALID_GUESS_TOO_SHORT:
@@ -106,26 +103,28 @@ function App() {
 
   return (
     <div className="App">
-      <Title>
-        NERDLE
-      <TitleButton
-        onClick={() => {
-          dispatch(newGame(5));
-        }}
-      >
-        New
-      </TitleButton>
-      </Title>
-      <br />
-      <GameMessage>{renderGameMessage()}</GameMessage>
+      <Header>
+        <Title>
+          NERDLE
+          <TitleButton
+            onClick={() => {
+              dispatch(newGame(5));
+            }}
+          >
+            New
+          </TitleButton>
+        </Title>
+        <br />
+        <GameMessage>{renderGameMessage()}</GameMessage>
+      </Header>
       <GameBoard
         word={word}
         currentGuess={currentGuess}
         gameState={gameState}
       />
-      <KeyboardWrapper ref={keyboardRef}>
+      <div id="KeyboardWrapper" ref={keyboardRef}>
         <Keyboard layout={CustomLayout} onKeyPress={onKeyPress} />
-      </KeyboardWrapper>
+      </div>
     </div>
   );
 }

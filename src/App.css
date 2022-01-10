@@ -9,13 +9,17 @@ body {
   display:flex;
   flex-direction: column;
   align-items: center;
+  height:100vh;
 }
 
 
 /* Modifiers for onscreen keyboard */
 
-.hg-theme-default {
+#KeyboardWrapper {
+  flex: 0;
+  margin-top: auto;
   width: 50%;
+  bottom:50px;
 }
 
 .keyboard-wrapper .ui-keyboard-button {
@@ -23,4 +27,11 @@ body {
   padding:20px;
   border-radius: 0px;
   border:solid 1px #282c34;
+}
+
+@media screen and (max-width: 768px) {
+  #KeyboardWrapper {
+    width: 100%;
+    bottom:0px;
+  }
 }
