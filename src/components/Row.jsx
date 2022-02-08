@@ -1,5 +1,3 @@
-import { useSelector } from "react-redux";
-
 import styled from "styled-components";
 import PropTypes from "prop-types";
 import ROW_STATES from "../constants/RowStates";

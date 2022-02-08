@@ -19,6 +19,10 @@ export const gameSlice = createSlice({
   reducers: {
     makeGuess: (state) => {
       const { currentGuess, currentRow, gameState } = state;
+
+      var used = [false, false, false, false, false];
+      var states = [LETTER_STATES.WRONG, LETTER_STATES.WRONG, LETTER_STATES.WRONG, LETTER_STATES.WRONG, LETTER_STATES.WRONG];
+      
       state.tempGuess = currentGuess;
       if (
         gameState === GAME_STATES.GAME_WON ||
@@ -36,9 +40,6 @@ export const gameSlice = createSlice({
           letterStates: [LETTER_STATES.RIGHT_SPACE, LETTER_STATES.RIGHT_SPACE, LETTER_STATES.RIGHT_SPACE, LETTER_STATES.RIGHT_SPACE, LETTER_STATES.RIGHT_SPACE]
         });
       } else if (currentRow === 5) {
-        var used = [false, false, false, false, false];
-        var states = [LETTER_STATES.WRONG, LETTER_STATES.WRONG, LETTER_STATES.WRONG, LETTER_STATES.WRONG, LETTER_STATES.WRONG];
-
         [...currentGuess].forEach((guessLetter, i) => {
           if (guessLetter === state.word[i]) {
             states[i] = LETTER_STATES.RIGHT_SPACE;
@@ -67,9 +68,6 @@ export const gameSlice = createSlice({
       } else if (!sortedWordlist[5].includes(currentGuess)) {
         state.gameState = GAME_STATES.INVALID_GUESS_NOT_WORD;
       } else {
-        var used = [false, false, false, false, false];
-        var states = [LETTER_STATES.WRONG, LETTER_STATES.WRONG, LETTER_STATES.WRONG, LETTER_STATES.WRONG, LETTER_STATES.WRONG];
-
         [...currentGuess].forEach((guessLetter, i) => {
           if (guessLetter === state.word[i]) {
             states[i] = LETTER_STATES.RIGHT_SPACE;
