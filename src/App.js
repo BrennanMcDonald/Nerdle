@@ -111,7 +111,7 @@ function App() {
       case GAME_STATES.INVALID_GUESS_TOO_SHORT:
         return `Guess is too short.`;
       default:
-        return `${word}`;
+        return ``;
     }
   };
 
