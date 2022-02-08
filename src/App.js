@@ -12,6 +12,7 @@ import CustomLayout from "./constants/KeyboardLayouts";
 import GameBoard from "./components/GameBoard";
 import GAME_STATES from "./constants/GameStates";
 import styled from "styled-components";
+import LETTER_STATES from "./constants/LetterStates";
 
 const Title = styled.div`
   font-weight: 700;
@@ -59,6 +60,18 @@ const TitleButton = styled.button`
 const Header = styled.div`
 `;
 
+const KeyboardWrapper = styled.div`
+  max-width: 650px;
+  flex: 0;
+  margin-top: auto;
+  width: 50%;
+  bottom:50px;
+  @media screen and (max-width: 768px) {
+      width: 100%;
+      bottom:0px;
+  }
+`
+
 function App() {
   const dispatch = useDispatch();
   const word = useSelector((state) => state.game.word);
@@ -67,6 +80,7 @@ function App() {
   const currentRow = useSelector((state) => state.game.currentRow);
   const gameState = useSelector((state) => state.game.gameState);
   const tempGuess = useSelector((state) => state.game.tempGuess);
+  const letterStates = useSelector((state) => state.game.letterStates);
 
   const keyboardRef = useRef();
 
@@ -90,16 +104,32 @@ function App() {
         return `Congratulations! You got it in ${currentRow} guess${
           currentRow === 1 ? "" : "es"
         }`;
-      case GAME_STATES.GAME_OVER:
-        return `You Lost. Sadge.`;
+      case GAME_STATES.GAME_LOST:
+        return `You Lost. The correct word was ${word} :(`;
       case GAME_STATES.INVALID_GUESS_NOT_WORD:
-        return `${tempGuess} is not a word, bozo.`;
+        return `${tempGuess} is not in the Nerdle wordbank`;
       case GAME_STATES.INVALID_GUESS_TOO_SHORT:
         return `Guess is too short.`;
       default:
-        return "";
+        return `${word}`;
     }
   };
+
+  if (keyboardRef.current) {
+    const keys = keyboardRef.current.getElementsByClassName("hg-button");
+    for(var i = 0; i < keys.length; i++) {
+      var letter = keys[i].dataset["skbtn"].toLowerCase();
+      if (letterStates[letter] === LETTER_STATES.RIGHT_LETTER) {
+        keys[i].style.background = "rgb(181, 159, 59)";
+      } else if(letterStates[letter] === LETTER_STATES.RIGHT_SPACE) {
+        keys[i].style.background = "rgb(83, 141, 78)";
+      } else if(letterStates[letter] === LETTER_STATES.WRONG) {
+        keys[i].style.background = "rgb(134, 136, 138)";
+      } else if(Object.keys(letterStates).length === 0) {
+        keys[i].style.background = "rgb(255,255,255)";
+      }
+    }
+  }
 
   return (
     <div className="App">
@@ -122,9 +152,9 @@ function App() {
         currentGuess={currentGuess}
         gameState={gameState}
       />
-      <div id="KeyboardWrapper" ref={keyboardRef}>
+      <KeyboardWrapper ref={keyboardRef}>
         <Keyboard layout={CustomLayout} onKeyPress={onKeyPress} />
-      </div>
+      </KeyboardWrapper>
     </div>
   );
 }

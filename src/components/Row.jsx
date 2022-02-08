@@ -11,64 +11,42 @@ const InnerRow = styled.div`
   flex-direction: col;
 `;
 
-function Row({ state, guess }) {
-  var currentWord = [...useSelector((state) => state.game.word)];
-  var guessArray = [...guess.padEnd(5, " ")];
+function Row({ state, historyObject }) {
+  var { guess, letterStates } = historyObject;
+
   var letters = [];
-  var states = [LETTER_STATES.WRONG, LETTER_STATES.WRONG, LETTER_STATES.WRONG, LETTER_STATES.WRONG, LETTER_STATES.WRONG];
-  var used = [false, false, false, false, false];
 
   if (state === ROW_STATES.PREVIOUS) {
-    // Check for letters that are in the correct spot
-    guessArray.forEach((guessLetter, i) => {
-      if (guessLetter === currentWord[i]) {
-        states[i] = LETTER_STATES.RIGHT_SPACE;
-        used[i] = true;
-      }
-    });
-
-    // Find letters that occur, but not in the right spot
-    // Algorithm:
-    // for each letter in the word
-    //    for each letter in the guess
-    //      if the letters match, we know there is overlap
-    //      ensure we haven't already found a match for that character in the word
-    //      Save the state and mark the letter in the word a used.
-    currentWord.forEach((wordLetter, wordIndex) => {
-      guessArray.forEach((guessLetter, guessIndex) => {
-        if (wordLetter === guessLetter && !used[wordIndex] && states[guessIndex] === LETTER_STATES.WRONG) {
-          states[guessIndex] = LETTER_STATES.RIGHT_LETTER;
-          used[wordIndex] = true;
-        }
-      });
-    });
-
-    states.forEach((state, i) => {
+    letterStates.forEach((state, i) => {
       letters.push(
-        <Letter key={i} letter={guessArray[i]} state={state} />
+        <Letter key={i} letter={guess[i]} state={state} />
       );
     })
-
   } else {
+    var guessArray = [...guess.padEnd(5, " ")];
     guessArray.forEach((el, i) => {
       letters.push(
         <Letter key={i} letter={el} state={LETTER_STATES.UNGUESSED} />
       );
     });
   }
-  console.log(letters);
-
   return <InnerRow>{letters}</InnerRow>;
 }
 
 Row.propTypes = {
   state: PropTypes.number.isRequired,
-  guess: PropTypes.string.isRequired,
+  historyObject: PropTypes.shape({
+    guess: PropTypes.string,
+    letterStates: PropTypes.arrayOf(PropTypes.any)
+  }),
 };
 
 Row.defaultProps = {
   state: ROW_STATES.UNUSED,
-  guess: "",
+  historyObject: {
+    guess: "",
+    letterStates: []
+  },
 };
 
 export default Row;
